@@ -5,17 +5,17 @@
 #
 # Thanks to the support of the HRII Technicians
 #
-# This script installs or updates the uma environment, cloning or pulling the needed github repositories into the HRII tree
+# This script installs or updates the UMA environment, cloning or pulling the needed github repositories into the HRII tree
 #
 
 # Store actual directory
 ACTUAL_DIR=$(pwd)
 
 # If first installation source current dir, otherwise (update) uma tree's one
-if [ -d $HOME/git/uma_github/general/uma_installation_tools ]; then
-  source $HOME/git/uma_github/general/uma_installation_tools/scripts/utils.sh
-  source $HOME/git/uma_github/general/uma_installation_tools/scripts/git/git_pull_repo.sh
-  source $HOME/git/uma_github/general/uma_installation_tools/scripts/progress_bar.sh
+if [ -d $HOME/uma_environment/uma_environment_tools ]; then
+  source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
+  source $HOME/uma_environment/uma_environment_tools/scripts/git/git_pull_repo.sh
+  source $HOME/uma_environment/uma_environment_tools/scripts/progress_bar.sh
 else
   source "$ACTUAL_DIR"/utils.sh
   source "$ACTUAL_DIR"/progress_bar.sh
@@ -25,39 +25,42 @@ fi
 ignore_update=0
 no_build=0
 while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        -i|--ignoreupdate) ignore_update=1;;
-        -nb|--nobuild) no_build=1;;
-        -h|--help) echo -e "usage: install_uma [-h | --help]\n\ncurrently supported options\n\thelp     \tshows this help"; return 1;;
-        *) echo "Unknown parameter passed: $1";;
-    esac
-    shift
+  case $1 in
+  -i | --ignoreupdate) ignore_update=1 ;;
+  -nb | --nobuild) no_build=1 ;;
+  -h | --help)
+    echo -e "usage: install_uma [-h | --help]\n\ncurrently supported options\n\thelp     \tshows this help"
+    return 1
+    ;;
+  *) echo "Unknown parameter passed: $1" ;;
+  esac
+  shift
 done
 
 # Functions
-throw_error(){
-  error "Git status of repo $FOLDER_PREFIX/general/uma_installation_tools:"
+throw_error() {
+  error "Git status of repo $FOLDER_PREFIX/uma_environment_tools:"
   echo
-  umacd uma_installation_tools && git status
+  umacd uma_environment_tools && git status
   # come back to the dir where the script was executed
   cd $ACTUAL_DIR
 }
 
-build_repo(){
-  if echo $pulled_repos|grep -q "$REPO_NAME" || [ ! -d "$REPO_SRC_DIR/build" ]; then
+build_repo() {
+  if echo $pulled_repos | grep -q "$REPO_NAME" || [ ! -d "$REPO_SRC_DIR/build" ]; then
     echo "Building $REPO_SRC_DIR. This might take a few minutes.." | tee -a $log_file
     cd $FOLDER_PREFIX/$REPO_SRC_DIR
     mkdir -p build
     cd build
 
     # Building and redirecting stdout and stderr to temp file
-    if [ $REPO_NAME  = "matlogger2" ]; then
+    if [ $REPO_NAME = "matlogger2" ]; then
       cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=. -Dpybind11_DIR=$HOME/.local/lib/python3.8/site-packages/pybind11/share/cmake/pybind11 .. 2>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >/uma/hrii/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
     else
       cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=. .. 2>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >/tmp/uma/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
     fi
-    make -j`nproc` 2>>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >>/tmp/uma/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
-    if [ $REPO_NAME  = "matlogger2" ]; then
+    make -j$(nproc) 2>>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >>/tmp/uma/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
+    if [ $REPO_NAME = "matlogger2" ]; then
       make install
       sudo make install
     fi
@@ -66,7 +69,7 @@ build_repo(){
     if grep -q "error" "/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log"; then
       echo "Build error found. Contact Juanma. Script halting.." | tee -a $log_file
       cd $ACTUAL_DIR
-      return 1;
+      return 1
     else
       echo "${REPO_SRC_DIR##*/} successfully built!" | tee -a $log_file
     fi
@@ -75,7 +78,7 @@ build_repo(){
   fi
 }
 
-delete_empty_folder(){
+delete_empty_folder() {
   if [ -z "$(ls -A $parent)" ]; then
     rm -rf $parent
     deleted_parent=1
@@ -86,75 +89,77 @@ delete_empty_folder(){
 
 # Local variables
 SOURCE_GIT_PREFIX="git@github.com:Robotics-Mechatronics-UMA/"
-FOLDER_PREFIX=~/git/uma_github
+FOLDER_PREFIX=~uma_environment_tools
 
 repo_count_existing=0
 repo_count_cloned=0
 repo_count_pulled=0
 repo_count_deleted=0
-unpullable_repos=();
-pulled_repos=();
+unpullable_repos=()
+pulled_repos=()
 
 # Create log file
 mkdir -p /tmp/uma
-current_date=$(date +"%Y_%m_%d__%H_%M_%S");
+current_date=$(date +"%Y_%m_%d__%H_%M_%S")
 log_file="/tmp/uma/install_uma_environment_$current_date.log"
-echo "install_uma_environment_ log" >> $log_file
+echo "install_uma_environment_ log" >>$log_file
 
 # Pull current repo to get updated repos list
 if [ "$ignore_update" = 0 ] && [ -d $FOLDER_PREFIX/general/uma_environment_tools ]; then
   cd $FOLDER_PREFIX/general/uma_environment_tools
-  status=$(git status);
-  echo "status: $status" >> $log_file
+  status=$(git status)
+  echo "status: $status" >>$log_file
 
-  if echo $status|grep -q 'Untracked'; then
+  if echo $status | grep -q 'Untracked'; then
     error "Error: uma_environment_tools cannot be pulled safely (untracked files). Please remove the files you added and execute the script once again."
     throw_error
-    return 0;
-  else if echo $status|grep -q 'modified'; then
-        error "Error: uma_environment_tools cannot be pulled safely (modified files). Please stash your changes and execute the script once again."
+    return 0
+  else
+    if echo $status | grep -q 'modified'; then
+      error "Error: uma_environment_tools cannot be pulled safely (modified files). Please stash your changes and execute the script once again."
+      throw_error
+      return 0
+    else
+      if echo $status | grep -q 'HEAD detached'; then
+        error "Error: uma_environment_tools cannot be pulled (HEAD detached). Please checkout to focal-devel and execute the script once again."
         throw_error
-        return 0;
-      else if echo $status|grep -q 'HEAD detached'; then
-              error "Error: uma_environment_tools cannot be pulled (HEAD detached). Please checkout to focal-devel and execute the script once again."
-              throw_error
-              return 0;
-            else
-              #if this script is not up to date, quit
-              pull_output=$(git pull origin focal-devel 2>&1);
-              if echo $pull_output|grep -qoP "install_hrii_environment.sh"; then
-                warn "New version of the script now available. Please run me again!"
-                echo
-                cd $ACTUAL_DIR
-                return 1;
-              else
-                echo "Success: script up-to-date" >> $log_file
-              fi
-            fi
+        return 0
+      else
+        #if this script is not up to date, quit
+        pull_output=$(git pull origin focal-devel 2>&1)
+        if echo $pull_output | grep -qoP "install_uma_environment.sh"; then
+          warn "New version of the script now available. Please run me again!"
+          echo
+          cd $ACTUAL_DIR
+          return 1
+        else
+          echo "Success: script up-to-date" >>$log_file
+        fi
       fi
+    fi
   fi
 else
-  echo "ignore_update: $ignore_update" >> $log_file
+  echo "ignore_update: $ignore_update" >>$log_file
 fi
 
 # Get updated HRII_TREE_GITLAB_REPOS
-if [ -d $HOME/git/hrii_gitlab/general/hrii_installation_tools ]; then
-  source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/gitlab/create_gitlab_dir.sh
+if [ -d $HOME/uma_environment/uma_environment_tools ]; then
+  source $HOME/uma_environment/uma_environment_tools/scripts/gitlab/create_gitlab_dir.sh
 else
   source "$ACTUAL_DIR"/gitlab/create_gitlab_dir.sh
 fi
 
 # Install additional packages
 echo
-echo "Installing additional packages..."  | tee -a $log_file
+echo "Installing additional packages..." | tee -a $log_file
 declare -a required_pkgs=("arp-scan" "git-gui" "python3-pip" "ros-noetic-pinocchio" "ros-noetic-move-base-msgs" "terminator" "python3-testresources" "dialog")
 declare -a required_pip3_pkgs=("tk" "h5py" "pymodbus" "matplotlib" "Twisted" "pybind11")
 
 # Check required packages installation status
 for pkg in "${required_pkgs[@]}"; do
   pkg_output=$(apt-cache policy $pkg)
-  if echo $pkg_output|grep -q 'Installed: (none)'; then
-    echo "$pkg newly installed" >> $log_file
+  if echo $pkg_output | grep -q 'Installed: (none)'; then
+    echo "$pkg newly installed" >>$log_file
     sudo apt install -y $pkg
   fi
 done
@@ -162,8 +167,8 @@ done
 # Check required pip3 packages installation status
 pip3_installed_pkgs=$(pip3 list)
 for pip3_pkg in "${required_pip3_pkgs[@]}"; do
-  if echo $pip3_installed_pkgs|grep -qv $pip3_pkg; then
-    echo "$pip3_pkg newly installed" >> $log_file
+  if echo $pip3_installed_pkgs | grep -qv $pip3_pkg; then
+    echo "$pip3_pkg newly installed" >>$log_file
     pip3 install $pip3_pkg -t $HOME/.local/lib/python3.8/site-packages
   fi
 done
@@ -181,7 +186,7 @@ cd $FOLDER_PREFIX
 echo
 blue "    |-------------------------------------------|"
 blue "    |                                           |"
-blue "    |          $msg_keyword HRII ENVIRONMENT          |"
+blue "    |          $msg_keyword UMA ENVIRONMENT          |"
 blue "    |                                           |"
 blue "    |-------------------------------------------|"
 echo
@@ -192,6 +197,7 @@ echo
 
 # Make sure that the progress bar is cleaned up when user presses ctrl+c
 enable_trapping
+
 # Create progress bar
 setup_scroll_area
 counter=0
@@ -273,51 +279,46 @@ if [ ${#unpullable_repos[@]} -gt 0 ]; then
   done
 fi
 
-# Check if hrii environment is already sourced in .bashrc
+# Check if UMA environment is already sourced in .bashrc
 bashrc_content=$(cat $HOME/.bashrc)
-path_to_be_sourced="/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_"
-if echo $bashrc_content|grep -q "$path_to_be_sourced"; then
-  echo ".bashrc already sourced" >> $log_file
+path_to_be_sourced="/uma_environment/uma_environment_tools/scripts/uma_env/uma_"
+if echo $bashrc_content | grep -q "$path_to_be_sourced"; then
+  echo ".bashrc already sourced" >>$log_file
 else
-    if [[ $USER == "summit" ]]; then
-      echo "source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_env.sh" >> ~/.bashrc
-      echo "source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_summit_env.sh" >> ~/.bashrc
-    else
-      echo "source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_env.sh" >> ~/.bashrc
-    fi
+  echo "source $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_env.sh" >>~/.bashrc
 fi
 
-# .hrii_params update check
+# .uma_params update check
 echo
-if [ ! -f ~/.hrii_params.env ]; then
+if [ ! -f ~/.uma_params.env ]; then
   # No link, copied so that is not affected by future pulls
-  echo ".hrii_params.env newly created" >> $log_file
-  cp $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_params.env ~/.hrii_params.env
-  hrii_params_out=$(cat ~/.hrii_params.env)
-  blue "$hrii_params_out"
+  echo ".uma_params.env newly created" >>$log_file
+  cp $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
+  uma_params_out=$(cat ~/.uma_params.env)
+  blue "$uma_params_out"
   echo
-  warn ".hrii_params.env has been created. The current settings are listed above in blue."
-  warn "You can enter your personal settings by running the command \"modify_hrii_params\"."
+  warn ".uma_params.env has been created. The current settings are listed above in blue."
+  warn "You can enter your personal settings by running the command \"modify_uma_params\"."
 else
   #Check if current version is the latest
   # get last version
   str_before_version="# HRII PARAMS "
-  hrii_params_file=$(cat $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_params.env)
-  LAST_VERSION="${hrii_params_file#*$str_before_version}"
+  uma_params_file=$(cat $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env)
+  LAST_VERSION="${uma_params_file#*$str_before_version}"
   LAST_VERSION="${LAST_VERSION:0:5}"
-  hrii_params_content=$(cat $HOME/.hrii_params.env)
-  hrii_params_version="HRII PARAMS $LAST_VERSION"
-  if echo $hrii_params_content|grep -q "$hrii_params_version"; then
-    echo ".hrii_params.env already up-to-date ($LAST_VERSION)."
+  uma_params_content=$(cat $HOME/.uma_params.env)
+  uma_params_version="HRII PARAMS $LAST_VERSION"
+  if echo $uma_params_content | grep -q "$uma_params_version"; then
+    echo ".uma_params.env already up-to-date ($LAST_VERSION)."
   else
     # Store current settings
     current_ws="${WORKSPACE_TO_SOURCE##*/}"
     # No link, copied so that is not affected by future pulls
-    cp $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_params.env ~/.hrii_params.env
+    cp $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
     # Restore user workspace
-    sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$current_ws'/' ~/.hrii_params.env
-    warn ".hrii_params.env has been updated to latest version ($LAST_VERSION)."
-    warn "To edit your personal settings run the command \"modify_hrii_params\""
+    sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$current_ws'/' ~/.uma_params.env
+    warn ".uma_params.env has been updated to latest version ($LAST_VERSION)."
+    warn "To edit your personal settings run the command \"modify_uma_params\""
   fi
 fi
 
@@ -332,8 +333,8 @@ if [ ! -d $HOME/ros ]; then
 fi
 
 # Clean up old hrii env files, if present
-if [ -d $HOME/.hrii_env ]; then
-  rm -rf $HOME/.hrii_env
+if [ -d $HOME/.uma_env ]; then
+  rm -rf $HOME/.uma_env
 fi
 if [ -L $HOME/log/DataPlotterHandler.py ]; then
   rm -f $HOME/log/DataPlotterHandler.py
@@ -363,13 +364,12 @@ if [ "$repos_to_clean" = 1 ]; then
   read ans
   if [[ "$ans" == "Y" || "$ans" == "y" || "$ans" == "" ]]; then
     echo "Deleting the following repos:"
-    echo "${HRII_GITLAB_REPOS_TO_BE_DELETED[*]}" 
+    echo "${HRII_GITLAB_REPOS_TO_BE_DELETED[*]}"
     for GITLAB_REPO in "${HRII_GITLAB_REPOS_TO_BE_DELETED[@]}"; do
       rm -rf $GITLAB_REPO
       parent="$GITLAB_REPO"
       deleted_parent=1
-      while [ $deleted_parent = 1 ]
-      do
+      while [ $deleted_parent = 1 ]; do
         parent="$(dirname $parent)"
         delete_empty_folder $parent
       done
@@ -382,11 +382,11 @@ fi
 # Edit grub default entry to enable the hrii_alias reboot_to_windows
 echo
 grub_content=$(cat /etc/default/grub)
-if echo $grub_content|grep -q "GRUB_DEFAULT=saved"; then
-  echo "reboot_to_windows already enabled!" >> $log_file
+if echo $grub_content | grep -q "GRUB_DEFAULT=saved"; then
+  echo "reboot_to_windows already enabled!" >>$log_file
 else
   warn "Configuring grub to enable the hrii_alias 'reboot_to_windows'. Prompt your password if required..."
-  echo "reboot_to_windows being enabled!" >> $log_file
+  echo "reboot_to_windows being enabled!" >>$log_file
   sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub
 fi
 

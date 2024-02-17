@@ -10,13 +10,13 @@ if [ $ROS_DISTRO_TO_SOURCE == 'noetic' ]; then
       echo "/opt/ros/$ROS_DISTRO_TO_SOURCE/setup.bash not found. Failed sourcing the ROS."
     else
       source /opt/ros/$ROS_DISTRO_TO_SOURCE/setup.bash
-      if [ "$HRII_ENV_VERBOSITY" = true ]; then
+      if [ "$UMA_ENV_VERBOSITY" = true ]; then
         echo "Sourced workspace: none (ROS $ROS_DISTRO)"
       fi
     fi
   else
     source $WORKSPACE_TO_SOURCE/devel/setup.bash
-    if [ "$HRII_ENV_VERBOSITY" = true ]; then
+    if [ "$UMA_ENV_VERBOSITY" = true ]; then
       echo "Sourced workspace: $WORKSPACE_TO_SOURCE (ROS $ROS_DISTRO)"
     fi
   fi
@@ -41,13 +41,13 @@ elif [ $ROS_DISTRO_TO_SOURCE == 'foxy' ]; then
       echo "/opt/ros/$ROS_DISTRO_TO_SOURCE/setup.bash not found. Failed sourcing the ROS."
     else
       source /opt/ros/$ROS_DISTRO_TO_SOURCE/setup.bash
-      if [ "$HRII_ENV_VERBOSITY" = true ]; then
+      if [ "$UMA_ENV_VERBOSITY" = true ]; then
         echo "Sourced workspace: none (ROS $ROS_DISTRO)"
       fi
     fi
   else
     . $WORKSPACE_TO_SOURCE/install/setup.bash
-    if [ "$HRII_ENV_VERBOSITY" = true ]; then
+    if [ "$UMA_ENV_VERBOSITY" = true ]; then
       echo "Sourced workspace: $WORKSPACE_TO_SOURCE (ROS $ROS_DISTRO)"
     fi
   fi

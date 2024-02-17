@@ -1,7 +1,9 @@
 #!/bin/bash
 #
-#  Author: Pietro Balatti
-#  email: pietro.balatti@iit.it
+#  Author: Juan M. Gandarias
+# email: jmgandarias@uma.es
+#
+# Thanks to the support of the HRII Technicians
 #
 # Function that safely pulls the repo given as input
 #
@@ -9,7 +11,7 @@
 yes_to_all=0
 remote_update=0
 
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/utils.sh
+source $HOME/git/uma_github/general/uma_installation_tools/scripts/utils.sh
 
 git_pull_repo()
 {

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-source ~/.hrii_params.env
+source ~/.uma_params.env
 
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/ros/startup_ros_env.sh
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_aliases.sh
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/git/git_user_check.sh
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/gitlab/create_gitlab_dir.sh
+source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/ros/startup_ros_env.sh
+source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/uma_env/uma_aliases.sh
+source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git/git_user_check.sh
+source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/gitlab/create_gitlab_dir.sh
 
 # Add PATH export to include pymodbus and pyserial scripts
 export PATH="$PATH:/home/$USER/.local/bin"

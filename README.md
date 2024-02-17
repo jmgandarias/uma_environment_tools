@@ -36,22 +36,28 @@ The last script you run above created in your home folder the following folder t
 
 ```
 .
-├── git
-│   └── uma_github
-│       ├── general
-│       │   ├── uma_installation_tools
-│       │   ├── uma_utils
-│       │   └── matlogger2
+│
+├── personal
+│   └── your personal repos (e.g., your website)
+├── uma_environment
+│       ├── uma_environment_tools
+│       ├── uma_utils
+│       ├── matlogger2
 │       └── ...
 ├── ros
-│   ├── my_ros_ws
-|   │   ├── src
-|   │   ├── devel
-|   │   └── build
-│   └── my_ros2_ws
-|       ├── src
-|       ├── install
-|       └── build
+│   ├── Noetic
+│   │   ├── my_ros_ws
+|   │   │   ├── src
+|   │   │   ├── devel
+|   │   │   └── build
+│   │   └── ...
+│   └── Foxy
+│       ├── my_ros2_ws
+|       │   ├── src
+|       │   ├── install
+|       │   └── build
+│       └── ...
+|       
 ├── log
 │   ├── my_logged_data__YYYY_MM_DD__HH_MM_SS.mat
 │   └── ...

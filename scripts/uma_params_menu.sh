@@ -1,15 +1,17 @@
 #!/bin/bash
-# HRII parameters selection script
+# UMA parameters selection script
 #
-# Author: Pietro Balatti
-# email: pietro.balatti@iit.it
+# Author: Juan M. Gandarias
+# email: jmgandarias@uma.es
+#
+# Thanks to the support of the HRII Technicians
 #
 
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/utils.sh
-source $HOME/.hrii_params.env
+source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/utils.sh
+source $HOME/.uma_params.env
 
 # default values
-verbosity=$(echo $HRII_ENV_VERBOSITY) #true/false
+verbosity=$(echo $UMA_ENV_VERBOSITY) #true/false
 git_client=$(echo $GIT_CLIENT) #GUI/kraken
 terminal_style=$(echo $TERMINAL_COLORS) #1/2
 interface_type=$(echo ${INTERFACE_TYPE,,}) #simulation/hardware - converting to lower case
@@ -36,9 +38,9 @@ while [ $error = 1 ]; do
 
 	# Store data to $VALUES variable
 	VALUES=$(dialog --ok-label "Save" \
-		  --backtitle "HRII params management" \
-		  --title "HRII parameters selection" \
-		  --form "Select your desired HRII params:"       20 $windows_size 0 \
+		  --backtitle "UMA params management" \
+		  --title "UMA parameters selection" \
+		  --form "Select your desired UMA params:"       20 $windows_size 0 \
 			"Verbosity:"        1 1	 "$verbosity"          1 17 $max_size 0  \
 			"Git client:"       2 1	 "$git_client"          2 17 $max_size 0  \
 			"Terminal style:"   3 1	 "$terminal_style"     3 17 $max_size 0 \
@@ -144,9 +146,9 @@ exec 3>&-
 clear
 
 if [ $exitStatus = 1 ]; then
-	warn "HRII params not configured"
+	warn "UMA params not configured"
 else
-	# susbtitute values in .hrii_params.env
+	# susbtitute values in .uma_params.env
 	verbosity=${fields[0]}
 	git_client=${fields[1]}
 	terminal_style=${fields[2]}
@@ -158,16 +160,16 @@ else
 	master_ip=${fields[8]}
 	my_ip=${fields[9]}
 
-	sed -i 's/HRII_ENV_VERBOSITY=[0-9a-zA-Z_~/-]*/HRII_ENV_VERBOSITY='$verbosity'/' ~/.hrii_params.env
-	sed -i 's/GIT_CLIENT=[0-9a-zA-Z_~/-]*/GIT_CLIENT='$git_client'/' ~/.hrii_params.env
-	sed -i 's/TERMINAL_COLORS=[0-9a-zA-Z_~/-]*/TERMINAL_COLORS='$terminal_style'/' ~/.hrii_params.env
-	sed -i 's/INTERFACE_TYPE=[0-9a-zA-Z_~/-]*/INTERFACE_TYPE='$interface_type'/' ~/.hrii_params.env
-	sed -i 's/ROBOT_ARM_IP=[0-9.]*/ROBOT_ARM_IP='$arm_ip'/' ~/.hrii_params.env
-	sed -i 's/ROS_DISTRO_TO_SOURCE=[0-9a-zA-Z_~/-]*/ROS_DISTRO_TO_SOURCE='$ros_version'/' ~/.hrii_params.env
-	sed -i 's/CATKIN_BUILD_TYPE=[0-9a-zA-Z_~/-]*/CATKIN_BUILD_TYPE='$catkin_build_type'/' ~/.hrii_params.env
-	sed -i 's/ROS_REMOTE_MASTER=[0-9a-zA-Z_~/-]*/ROS_REMOTE_MASTER='$remote_master'/' ~/.hrii_params.env
-	sed -i 's/ROS_MASTER_IP=[0-9.]*/ROS_MASTER_IP='$master_ip'/' ~/.hrii_params.env
-	sed -i 's/MY_IP=[0-9.]*/MY_IP='$my_ip'/' ~/.hrii_params.env
+	sed -i 's/UMA_ENV_VERBOSITY=[0-9a-zA-Z_~/-]*/UMA_ENV_VERBOSITY='$verbosity'/' ~/.uma_params.env
+	sed -i 's/GIT_CLIENT=[0-9a-zA-Z_~/-]*/GIT_CLIENT='$git_client'/' ~/.uma_params.env
+	sed -i 's/TERMINAL_COLORS=[0-9a-zA-Z_~/-]*/TERMINAL_COLORS='$terminal_style'/' ~/.uma_params.env
+	sed -i 's/INTERFACE_TYPE=[0-9a-zA-Z_~/-]*/INTERFACE_TYPE='$interface_type'/' ~/.uma_params.env
+	sed -i 's/ROBOT_ARM_IP=[0-9.]*/ROBOT_ARM_IP='$arm_ip'/' ~/.uma_params.env
+	sed -i 's/ROS_DISTRO_TO_SOURCE=[0-9a-zA-Z_~/-]*/ROS_DISTRO_TO_SOURCE='$ros_version'/' ~/.uma_params.env
+	sed -i 's/CATKIN_BUILD_TYPE=[0-9a-zA-Z_~/-]*/CATKIN_BUILD_TYPE='$catkin_build_type'/' ~/.uma_params.env
+	sed -i 's/ROS_REMOTE_MASTER=[0-9a-zA-Z_~/-]*/ROS_REMOTE_MASTER='$remote_master'/' ~/.uma_params.env
+	sed -i 's/ROS_MASTER_IP=[0-9.]*/ROS_MASTER_IP='$master_ip'/' ~/.uma_params.env
+	sed -i 's/MY_IP=[0-9.]*/MY_IP='$my_ip'/' ~/.uma_params.env
 	reset; . ~/.bashrc
-	success "HRII params configured successfully stored"
+	success "UMA params configured successfully stored"
 fi

@@ -3,11 +3,11 @@
 REPO_NAME=$1
 
 if [ -z "$1" ]; then
-    cd ~/git/uma_github/
+    cd ~/uma_environment_tools/
     return
 fi
 
-REPO_PATH_LIST=`find ~/git/uma_github/ -type d -name $REPO_NAME`
+REPO_PATH_LIST=`find ~/uma_environment_tools/ -type d -name $REPO_NAME`
 
 for REPO_PATH in $REPO_PATH_LIST; do
     # Check if the repo exist and contains a ".git" folder
