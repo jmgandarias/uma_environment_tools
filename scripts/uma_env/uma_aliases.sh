@@ -62,23 +62,23 @@ if [ $ROS_VERSION == 2 ]; then
 fi
 
 # git aliases
-alias git_status_all='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git/git_status_all.sh'
-alias git_pull_all='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git_pull_all.sh'
-alias git_export_repos='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git_export_repos.sh'
-alias git_import_repos='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git_import_repos.sh'
-alias git_clone='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git_clone.sh'
-alias git_user_change='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git_user_change.sh'
+alias git_status_all='. $HOME/uma_environment/uma_environment_tools/scripts/git/git_status_all.sh'
+alias git_pull_all='. $HOME/uma_environment/uma_environment_tools/scripts/git_pull_all.sh'
+alias git_export_repos='. $HOME/uma_environment/uma_environment_tools/scripts/git_export_repos.sh'
+alias git_import_repos='. $HOME/uma_environment/uma_environment_tools/scripts/git_import_repos.sh'
+alias git_clone='. $HOME/uma_environment/uma_environment_tools/scripts/git_clone.sh'
+alias git_user_change='. $HOME/uma_environment/uma_environment_tools/scripts/git_user_change.sh'
 
 # UMA environment
-alias update_uma_environment='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/install_uma_environment.sh'
+alias update_uma_environment='. $HOME/uma_environment/uma_environment_tools/scripts/install_uma_environment.sh'
 
 # General aliases
 alias nt='reset; . ~/.bashrc'
-alias crw='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/ros/change_ros_ws.sh'
-alias crv='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/ros/change_ros_version.sh'
-alias create_catkin_ws='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/create_catkin_ws.sh'
+alias crw='. $HOME/uma_environment/uma_environment_tools/scripts/ros/change_ros_ws.sh'
+alias crv='. $HOME/uma_environment/uma_environment_tools/scripts/ros/change_ros_version.sh'
+alias create_catkin_ws='. $HOME/uma_environment/uma_environment_tools/scripts/create_catkin_ws.sh'
 alias modify_bashrc='gedit ~/.bashrc'
-alias modify_uma_params='. $HOME/git/uma_environment_tools/uma_installation_tools/scripts/uma_params_menu.sh'
+alias modify_uma_params='. $HOME/uma_environment/uma_environment_tools/scripts/uma_params_menu.sh'
 alias sd='sudo shutdown now'
 alias reboot='sudo reboot'
 alias start_vnc_server='x11vnc -display :0'

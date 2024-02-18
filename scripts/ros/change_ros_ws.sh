@@ -49,6 +49,6 @@ echo "The desired ws is the following:" $DESIRED_WS_NAME
 cd $DESIRED_WS_NAME
 
 DESIRED_WS_NAME=$(echo $DESIRED_WS_NAME | sed 's/\//\\&/g')
-sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/-]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$DESIRED_WS_NAME'/' ~/.hrii_params.env
+sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/-]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$DESIRED_WS_NAME'/' ~/.uma_params.env
 
 . $HOME/.bashrc

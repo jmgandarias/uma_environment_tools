@@ -8,7 +8,7 @@
 
 actual_dir=`pwd`
 
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/utils.sh
+source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
 
 # Handling options
 thisfolder=0
