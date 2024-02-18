@@ -12,4 +12,4 @@ ssh-keygen -t rsa -b 2048 -C $USER_EMAIL
 
 xclip -sel clip < ~/.ssh/id_rsa.pub
 
-echo "Your id_rsa.pub key has been copied, go to: https://gitlab.iit.it/-/profile/keys and paste it"
+echo "Your id_rsa.pub key has been copied, go to: https://github.com/settings/keys and paste it"

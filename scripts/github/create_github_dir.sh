@@ -1,6 +1,8 @@
 #!/bin/bash
 
-declare -a HRII_GITLAB_REPOS=(
+
+# To be changed (old gitlab repos)
+declare -a UMA_GITHUB_REPOS=(
     "augmentedreality/hrii_hololens.git"
     "augmentedreality/hrii_hololens_anchors.git"
     "augmentedreality/hrii_hololens_franka.git"
@@ -295,10 +297,10 @@ declare -a HRII_GITLAB_REPOS=(
     "vision/visual-odometry/hrii_vo.git"
 )
 
-declare -a HRII_TREE_GITLAB_REPOS=(
-    "general/hrii_installation_tools.git"
-    "general/hrii_utils.git"
-    "general/matlogger2.git"
-    "robotics/franka/libfranka.git"
-    "robotics/grippers/qbrobotics-api.git"
+declare -a UMA_TREE_REPOS=(
+    "uma_installation_tools.git"
+    "uma_utils.git"
+    "matlogger2.git"
+    # "robotics/franka/libfranka.git"
+    # "robotics/grippers/qbrobotics-api.git"
 )

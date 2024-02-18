@@ -9,7 +9,7 @@ source /opt/ros/$ROS_DISTRO_TO_INSTALL/setup.bash
 source $WORKSPACE_TO_SOURCE/devel/setup.bash
 
 #source robot params
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_summit_env.sh
+source $HOME/uma_environment/uma_environment_tools/scripts/hrii_env/uma_summit_env.sh
 
 # SUMMIT XL
 # AUTOBOOT

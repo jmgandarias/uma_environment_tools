@@ -5,7 +5,7 @@
 #
 # Thanks to the support of the HRII Technicians
 #
-# This script installs or updates the UMA environment, cloning or pulling the needed github repositories into the HRII tree
+# This script installs or updates the UMA environment, cloning or pulling the needed github repositories into the UMA tree
 #
 
 # Store actual directory
@@ -55,7 +55,7 @@ build_repo() {
 
     # Building and redirecting stdout and stderr to temp file
     if [ $REPO_NAME = "matlogger2" ]; then
-      cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=. -Dpybind11_DIR=$HOME/.local/lib/python3.8/site-packages/pybind11/share/cmake/pybind11 .. 2>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >/uma/hrii/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
+      cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=. -Dpybind11_DIR=$HOME/.local/lib/python3.8/site-packages/pybind11/share/cmake/pybind11 .. 2>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >/uma/uma/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
     else
       cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=. .. 2>/tmp/uma/build_log_err_${REPO_SRC_DIR##*/}_$current_date.log >/tmp/uma/build_log_out_${REPO_SRC_DIR##*/}_$current_date.log
     fi
@@ -142,11 +142,11 @@ else
   echo "ignore_update: $ignore_update" >>$log_file
 fi
 
-# Get updated HRII_TREE_GITLAB_REPOS
+# Get updated UMA_TREE_REPOS
 if [ -d $HOME/uma_environment/uma_environment_tools ]; then
-  source $HOME/uma_environment/uma_environment_tools/scripts/gitlab/create_gitlab_dir.sh
+  source $HOME/uma_environment/uma_environment_tools/scripts/github/create_github_dir.sh
 else
-  source "$ACTUAL_DIR"/gitlab/create_gitlab_dir.sh
+  source "$ACTUAL_DIR"/github/create_github_dir.sh
 fi
 
 # Install additional packages
@@ -202,74 +202,73 @@ enable_trapping
 setup_scroll_area
 counter=0
 
-for GITLAB_REPO in "${HRII_TREE_GITLAB_REPOS[@]}"; do
-    percentage=$((counter*100/${#HRII_TREE_GITLAB_REPOS[@]}))
-    draw_progress_bar $percentage
-    FOLDER_PATH=$(echo ${GITLAB_REPO%/*})
-    REPO_GROUP=$(echo $FOLDER_PATH | sed 's:/.*::' )
-    REPO_TO_CLONE="$SOURCE_GIT_PREFIX$GITLAB_REPO"
-    echo "Repo: $GITLAB_REPO" >> $log_file
+for GITHUB_REPO in "${UMA_TREE_REPOS[@]}"; do
+  percentage=$((counter * 100 / ${#UMA_TREE_REPOS[@]}))
+  draw_progress_bar $percentage
+  FOLDER_PATH=$(echo ${GITHUB_REPO%/*})
+  REPO_GROUP=$(echo $FOLDER_PATH | sed 's:/.*::')
+  REPO_TO_CLONE="$SOURCE_GIT_PREFIX$GITHUB_REPO"
+  echo "Repo: $GITHUB_REPO" >>$log_file
 
-    # check if user has permission to access git repository
-    access_permission=$(git ls-remote $REPO_TO_CLONE 2>&1);
-    echo "access permission: $access_permission" >> $log_file
-    if echo $access_permission|grep -vqoP "fatal: Could not read from remote repository"; then
-      echo $GITLAB_REPO
-      PREV_FOLDER=$(pwd)
-      mkdir -p $FOLDER_PATH
-      DESTINATION_FOLDER=$FOLDER_PREFIX/${GITLAB_REPO:0:-4}
+  # check if user has permission to access git repository
+  access_permission=$(git ls-remote $REPO_TO_CLONE 2>&1)
+  echo "access permission: $access_permission" >>$log_file
+  if echo $access_permission | grep -vqoP "fatal: Could not read from remote repository"; then
+    echo $GITHUB_REPO
+    PREV_FOLDER=$(pwd)
+    mkdir -p $FOLDER_PATH
+    DESTINATION_FOLDER=$FOLDER_PREFIX/${GITHUB_REPO:0:-4}
 
-      # Check if repo already exists
-      if [ ! -d $DESTINATION_FOLDER ]
-      then
-        git clone --recursive $REPO_TO_CLONE $DESTINATION_FOLDER
-        warn "cloned at: $DESTINATION_FOLDER"
-        repo_count_cloned=$((repo_count_cloned+1))
-      else
-        echo "Repo already exists, not being cloned."
-        repo_count_existing=$((repo_count_existing+1))
-        echo "Pulling repo.."
-        repo_count_can_not_be_pulled=0;
-        cd $DESTINATION_FOLDER
-        repo_count_pulled_current=$repo_count_pulled;
-        git_pull_repo $DESTINATION_FOLDER y
+    # Check if repo already exists
+    if [ ! -d $DESTINATION_FOLDER ]; then
+      git clone --recursive $REPO_TO_CLONE $DESTINATION_FOLDER
+      warn "cloned at: $DESTINATION_FOLDER"
+      repo_count_cloned=$((repo_count_cloned + 1))
+    else
+      echo "Repo already exists, not being cloned."
+      repo_count_existing=$((repo_count_existing + 1))
+      echo "Pulling repo.."
+      repo_count_can_not_be_pulled=0
+      cd $DESTINATION_FOLDER
+      repo_count_pulled_current=$repo_count_pulled
+      git_pull_repo $DESTINATION_FOLDER y
 
-        #if repo has been pulled
-        if [ $repo_count_pulled -gt $repo_count_pulled_current ]; then
-          pulled_repos+=( $GITLAB_REPO );
-        fi
-
-        #if repo cannot be pulled, add it to the unpullable_repos list
-        if [ $repo_count_can_not_be_pulled -gt 0 ]; then
-          unpullable_repos+=( $GITLAB_REPO );
-        fi
-        cd $FOLDER_PREFIX
+      #if repo has been pulled
+      if [ $repo_count_pulled -gt $repo_count_pulled_current ]; then
+        pulled_repos+=($GITHUB_REPO)
       fi
 
-      # Build libfranka and matlogger2
-      REPO_NAME=${GITLAB_REPO##*/}
-      REPO_NAME=${REPO_NAME:0:-4}
-      if [ "$no_build" = 0 ]; then
-        if [ $REPO_NAME = "libfranka" ] || [ $REPO_NAME  = "matlogger2" ]; then
-          REPO_SRC_DIR=${GITLAB_REPO:0:-4}
-          build_repo
-        elif [ $REPO_NAME = "qbrobotics-api" ]; then
-          REPO_SRC_DIR="${GITLAB_REPO:0:-4}/serial"
-          build_repo
-          REPO_SRC_DIR="${GITLAB_REPO:0:-4}/qbrobotics-driver"
-          build_repo
-        fi
-      else
-        echo "No build option enabled" >> $log_file
+      #if repo cannot be pulled, add it to the unpullable_repos list
+      if [ $repo_count_can_not_be_pulled -gt 0 ]; then
+        unpullable_repos+=($GITHUB_REPO)
       fi
-      cd $PREV_FOLDER
-      echo
+      cd $FOLDER_PREFIX
     fi
-    counter=$((counter+1))
+
+    # Build libfranka and matlogger2
+    REPO_NAME=${GITHUB_REPO##*/}
+    REPO_NAME=${REPO_NAME:0:-4}
+    if [ "$no_build" = 0 ]; then
+      if [ $REPO_NAME = "libfranka" ] || [ $REPO_NAME = "matlogger2" ]; then
+        REPO_SRC_DIR=${GITHUB_REPO:0:-4}
+        build_repo
+      elif [ $REPO_NAME = "qbrobotics-api" ]; then
+        REPO_SRC_DIR="${GITHUB_REPO:0:-4}/serial"
+        build_repo
+        REPO_SRC_DIR="${GITHUB_REPO:0:-4}/qbrobotics-driver"
+        build_repo
+      fi
+    else
+      echo "No build option enabled" >>$log_file
+    fi
+    cd $PREV_FOLDER
+    echo
+  fi
+  counter=$((counter + 1))
 done
 destroy_scroll_area
 
-success "All available Gitlab repositories have been cloned."
+success "All available Github repositories have been cloned."
 echo "   $repo_count_existing already existed ($repo_count_pulled pulled) / $repo_count_cloned cloned"
 echo
 if [ ${#unpullable_repos[@]} -gt 0 ]; then
@@ -302,12 +301,12 @@ if [ ! -f ~/.uma_params.env ]; then
 else
   #Check if current version is the latest
   # get last version
-  str_before_version="# HRII PARAMS "
+  str_before_version="# UMA PARAMS "
   uma_params_file=$(cat $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env)
   LAST_VERSION="${uma_params_file#*$str_before_version}"
   LAST_VERSION="${LAST_VERSION:0:5}"
   uma_params_content=$(cat $HOME/.uma_params.env)
-  uma_params_version="HRII PARAMS $LAST_VERSION"
+  uma_params_version="UMA PARAMS $LAST_VERSION"
   if echo $uma_params_content | grep -q "$uma_params_version"; then
     echo ".uma_params.env already up-to-date ($LAST_VERSION)."
   else
@@ -332,7 +331,7 @@ if [ ! -d $HOME/ros ]; then
   mkdir -p $HOME/ros
 fi
 
-# Clean up old hrii env files, if present
+# Clean up old uma env files, if present
 if [ -d $HOME/.uma_env ]; then
   rm -rf $HOME/.uma_env
 fi
@@ -346,28 +345,28 @@ if [ -d $HOME/ros/ros_package_links ]; then
   rm -rf $HOME/ros/ros_package_links
 fi
 
-# Clean up old repos in the HRII tree
+# Clean up old repos in the UMA tree
 echo
-unset HRII_GITLAB_REPOS_TO_BE_DELETED
+unset UMA_GITHUB_REPOS_TO_BE_DELETED
 repos_to_clean=0
 LOCAL_REPOS=($(find . -maxdepth 5 -type d | grep "\.git$"))
-for GITLAB_REPO in "${LOCAL_REPOS[@]}"; do
-  if [[ ! " ${HRII_TREE_GITLAB_REPOS[*]} " =~ " ${GITLAB_REPO:2:-5}.git " ]]; then
-    warn "${GITLAB_REPO:2:-5}"
-    HRII_GITLAB_REPOS_TO_BE_DELETED+=(${GITLAB_REPO:2:-5})
+for GITHUB_REPO in "${LOCAL_REPOS[@]}"; do
+  if [[ ! " ${UMA_TREE_REPOS[*]} " =~ " ${GITHUB_REPO:2:-5}.git " ]]; then
+    warn "${GITHUB_REPO:2:-5}"
+    UMA_GITHUB_REPOS_TO_BE_DELETED+=(${GITHUB_REPO:2:-5})
     repos_to_clean=1
   fi
 done
 
 if [ "$repos_to_clean" = 1 ]; then
-  warn "Warning: the repos listed above should not be part of the HRII local tree anymore. Do you want to remove them? [Y/n]"
+  warn "Warning: the repos listed above should not be part of the UMA local tree anymore. Do you want to remove them? [Y/n]"
   read ans
   if [[ "$ans" == "Y" || "$ans" == "y" || "$ans" == "" ]]; then
     echo "Deleting the following repos:"
-    echo "${HRII_GITLAB_REPOS_TO_BE_DELETED[*]}"
-    for GITLAB_REPO in "${HRII_GITLAB_REPOS_TO_BE_DELETED[@]}"; do
-      rm -rf $GITLAB_REPO
-      parent="$GITLAB_REPO"
+    echo "${UMA_GITHUB_REPOS_TO_BE_DELETED[*]}"
+    for GITHUB_REPO in "${UMA_GITHUB_REPOS_TO_BE_DELETED[@]}"; do
+      rm -rf $GITHUB_REPO
+      parent="$GITHUB_REPO"
       deleted_parent=1
       while [ $deleted_parent = 1 ]; do
         parent="$(dirname $parent)"
@@ -376,16 +375,16 @@ if [ "$repos_to_clean" = 1 ]; then
     done
   fi
 else
-  echo "HRII env clean"
+  echo "UMA env clean"
 fi
 
-# Edit grub default entry to enable the hrii_alias reboot_to_windows
+# Edit grub default entry to enable the uma_alias reboot_to_windows
 echo
 grub_content=$(cat /etc/default/grub)
 if echo $grub_content | grep -q "GRUB_DEFAULT=saved"; then
   echo "reboot_to_windows already enabled!" >>$log_file
 else
-  warn "Configuring grub to enable the hrii_alias 'reboot_to_windows'. Prompt your password if required..."
+  warn "Configuring grub to enable the uma_alias 'reboot_to_windows'. Prompt your password if required..."
   echo "reboot_to_windows being enabled!" >>$log_file
   sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub
 fi
@@ -394,4 +393,4 @@ fi
 cd $ACTUAL_DIR
 
 echo
-success "HRII environment succesfully created, please close and reopen the terminal before creating your first catkin workspace!"
+success "UMA environment succesfully created, please close and reopen the terminal before creating your first catkin workspace!"

@@ -5,7 +5,7 @@
 # This script provides an easy way to switch from one ROS version to another
 #
 
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/utils.sh
+source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
 
 # Search for workspaces
 echo "List of all ROS versions:"

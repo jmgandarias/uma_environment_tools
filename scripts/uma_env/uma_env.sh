@@ -2,16 +2,16 @@
 
 source ~/.uma_params.env
 
-source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/ros/startup_ros_env.sh
-source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/uma_env/uma_aliases.sh
-source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/git/git_user_check.sh
-source $HOME/git/uma_environment_tools/uma_installation_tools/scripts/gitlab/create_gitlab_dir.sh
+source $HOME/uma_environment_tools/uma_installation_tools/scripts/ros/startup_ros_env.sh
+source $HOME/uma_environment_tools/uma_installation_tools/scripts/uma_env/uma_aliases.sh
+source $HOME/uma_environment_tools/uma_installation_tools/scripts/git/git_user_check.sh
+source $HOME/uma_environment_tools/uma_installation_tools/scripts/gitlab/create_gitlab_dir.sh
 
 # Add PATH export to include pymodbus and pyserial scripts
 export PATH="$PATH:/home/$USER/.local/bin"
 
 # Add LD_LIBRARY_PATH export to include matlogger2 for python
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/git/hrii_gitlab/general/matlogger2/build"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/uma_environment_tools/matlogger2/build"
 
 # adding colors and names to git branches
 force_color_prompt=yes
@@ -30,33 +30,33 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# Add autocompletion in bash command hriicd
-HRII_GITLAB_REPOS_TO_COMPLETE=""
-for REPO in "${HRII_TREE_GITLAB_REPOS[@]}" 
+# Add autocompletion in bash command umacd
+UMA_GITHUB_REPOS_TO_COMPLETE=""
+for REPO in "${UMA_TREE_REPOS[@]}" 
 do
   REPO_NAME="${REPO##*/}"
-  HRII_GITLAB_REPOS_TO_COMPLETE="$HRII_GITLAB_REPOS_TO_COMPLETE ${REPO_NAME::-4}"
+  UMA_GITHUB_REPOS_TO_COMPLETE="$UMA_GITHUB_REPOS_TO_COMPLETE ${REPO_NAME::-4}"
 done
-complete -W '$HRII_GITLAB_REPOS_TO_COMPLETE' hriicd
+complete -W '$UMA_GITHUB_REPOS_TO_COMPLETE' umacd
 
 # Add autocompletion in bash command git_clone
-HRII_GITLAB_REPOS_TO_CLONE=""
-for REPO in "${HRII_GITLAB_REPOS[@]}" 
+UMA_GITHUB_REPOS_TO_CLONE=""
+for REPO in "${UMA_GITHUB_REPOS[@]}" 
 do
-  HRII_GITLAB_REPOS_TO_CLONE="$HRII_GITLAB_REPOS_TO_CLONE $REPO"
+  UMA_GITHUB_REPOS_TO_CLONE="$UMA_GITHUB_REPOS_TO_CLONE $REPO"
 done
-complete -W '$HRII_GITLAB_REPOS_TO_CLONE' git_clone
+complete -W '$UMA_GITHUB_REPOS_TO_CLONE' git_clone
 
 # Change cuda version
 switch-cuda() {
-  source  $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/switch-cuda.sh "$1"
+  source  $HOME/uma_environment_tools/uma_installation_tools/scripts/scripts/switch-cuda.sh "$1"
 }
 
 connect-ssh-vpn() {
-  source  $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/connect_ssh_vpn.sh 
+  source  $HOME/uma_environment_tools/uma_installation_tools/scripts/scripts/connect_ssh_vpn.sh 
 }
 
-unset REPO_NAME HRII_GITLAB_REPOS 
+unset REPO_NAME UMA_GITHUB_REPOS 
 
-# now not possible, needed for hriicd and git_clone
-# unset HRII_GITLAB_REPOS_TO_CLONE HRII_GITLAB_REPOS_TO_COMPLETE
+# now not possible, needed for umacd and git_clone
+# unset UMA_GITHUB_REPOS_TO_CLONE UMA_GITHUB_REPOS_TO_COMPLETE
