@@ -46,8 +46,10 @@ done
 echo
 echo "Creating the ros2 pkg"
 
-ros2 pkg create --build-type ament_cmake ros2_pkg_name
-cd ros2_pkg_name
+ros2 pkg create --build-type ament_cmake $ros2_pkg_name
+cd $ros2_pkg_name
 mkdir launch
+cd ../..
+cb
 
 
