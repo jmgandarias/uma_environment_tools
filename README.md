@@ -45,18 +45,11 @@ The last script you run above created in your home folder the following folder t
 │       ├── matlogger2
 │       └── ...
 ├── ros
-│   ├── Noetic
-│   │   ├── my_ros_ws
-|   │   │   ├── src
-|   │   │   ├── devel
-|   │   │   └── build
-│   │   └── ...
-│   └── Foxy
-│       ├── my_ros2_ws
-|       │   ├── src
-|       │   ├── install
-|       │   └── build
-│       └── ...
+│    ├── my_ros2_ws
+|    │   ├── src
+|    │   ├── install
+|    │   └── build
+│    └── ...
 |       
 ├── log
 │   ├── my_logged_data__YYYY_MM_DD__HH_MM_SS.mat
@@ -73,21 +66,20 @@ The structure above represents the UMA environment directory tree, subdivided in
 - **.uma_params.env**: this [hidden file](https://en.wikipedia.org/wiki/Hidden_file_and_hidden_directory) is the only file you should modify thourgh the command _modify_uma_params_. It contains the user preferences that will be reflected in all the UMA environment. Example:
     ```bash
     #####################
-    # UMA PARAMS V.1.5 #
+    # UMA PARAMS V.0.1 #
     #####################
 
     #Set your ENV variables preferences
     UMA_ENV_VERBOSITY=true
 
     #Set git client preferences (GUI/kraken)
-    GIT_CLIENT=GUI
+    GIT_CLIENT=kraken
 
     #Set ROS distro
-    ROS_DISTRO_TO_INSTALL=noetic
-    ROS2_DISTRO_TO_INSTALL=foxy
+    ROS2_DISTRO_TO_INSTALL=humble
 
     #Set ROS distro (one between the two above)
-    ROS_DISTRO_TO_SOURCE=noetic
+    ROS_DISTRO_TO_SOURCE=humble
 
     #Set your workspace source
     WORKSPACES_PATH=~/ros
@@ -99,18 +91,9 @@ The structure above represents the UMA environment directory tree, subdivided in
     #Set the interface type (SIMULATION/HARDWARE)
     export INTERFACE_TYPE=SIMULATION
 
-    <!-- #Set the robot arm IP (needed for real HW)
-    export ROBOT_ARM_IP=192.168.0.101 -->
-
     #Set the catkin building type (make/build)
     CATKIN_BUILD_TYPE=build
 
-    #Set true if you want to use a remote machine as ROS MASTER
-    export ROS_REMOTE_MASTER=false
-
-    #If the prevous field is set to "true" specify also the following fields
-    export ROS_MASTER_IP=192.168.1.200
-    export MY_IP=192.168.0.10
     ```
     To edit this file type:
     ```bash
@@ -140,7 +123,7 @@ Usage:
 change_ros_ws
 #Note that you can also use the alias 'crw'
 ```
-
+<!-- 
 # 3. Git
 Performing daily operations with many git repositories can lead to potential mistakes due to human errors, as forgetting to commit/push some of your important files. Here you are a list of command you can run after having installed the _hrii_environment_.
 To run this scripts, you do not need to look for them inside this repos' folder, instead we created an alias for you and you just need to type the following commands in your teminal.
@@ -341,6 +324,6 @@ git_user_change --name "Name Surname" --email "name.surname@iit.it"
 To unset the git user from you machine, run:  
 ```bash
 git_user_change --unset
-```
+``` -->
 
 

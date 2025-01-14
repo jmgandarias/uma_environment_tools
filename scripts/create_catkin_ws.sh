@@ -6,21 +6,27 @@
 # This script guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in ~/.hrii_params.env
 #
 
-actual_dir=`pwd`
+actual_dir=$(pwd)
 
-source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
+source $HOME/uma_environment_tools/scripts/utils.sh
 
 # Handling options
 thisfolder=0
-ws_name="";
+ws_name=""
 while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        -t|--thisfolder) thisfolder=1 ;;
-        -w|--ws_name) ws_name="$1";;
-        -h|--help) echo -e "usage: create_catkin_ws [-t | --thisfolder] [-h | --help] [-w | --ws_name]\n\ncurrently supported options\n\tthisfolder\tcreates catkin ws in the current folder \n\tws_name  \tcreates the ws with the given name\n\thelp     \tshows this help"; return 0;;
-        *) echo "Unknown parameter passed: $1"; return 0;;
-    esac
-    shift
+  case $1 in
+  -t | --thisfolder) thisfolder=1 ;;
+  -w | --ws_name) ws_name="$1" ;;
+  -h | --help)
+    echo -e "usage: create_catkin_ws [-t | --thisfolder] [-h | --help] [-w | --ws_name]\n\ncurrently supported options\n\tthisfolder\tcreates catkin ws in the current folder \n\tws_name  \tcreates the ws with the given name\n\thelp     \tshows this help"
+    return 0
+    ;;
+  *)
+    echo "Unknown parameter passed: $1"
+    return 0
+    ;;
+  esac
+  shift
 done
 
 # If thisfolder is not set, check within the sourced workspace
@@ -30,23 +36,18 @@ else
   WORKSPACE_PREFIX="$HOME/ros"
 fi
 
-
 # Store actual directory
-actual_dir=`pwd`
-
-if [[ -d /opt/ros/melodic ]]; then
-  source /opt/ros/melodic/setup.bash
-else if [[ -d /opt/ros/noetic ]]; then
-       source /opt/ros/noetic/setup.bash
-     else
-       error "No ROS installation found. Run the ./install_ros script and come back here!"
-       exit
-     fi
+actual_dir=$(pwd)
+if [[ -d /opt/ros/humble ]]; then
+  source /opt/ros/humble/setup.bash
+else
+  error "No ROS installation found. Run the ./install_ros script and come back here!"
+  exit
 fi
 
 echo "New catkin workspace being created under the path \"$WORKSPACE_PREFIX\""
 if [[ ! -z "$ws_name" ]]; then
-  catkin_ws_name=$ws_name;
+  catkin_ws_name=$ws_name
 else
   echo "How would you like to name you workspace? [Just press enter for \"catkin_ws\"]"
   read catkin_ws_name
@@ -57,7 +58,7 @@ if [[ "$catkin_ws_name" == "" ]]; then
 fi
 
 pattern="[0-9a-zA-Z ]*_ws"
-if [[ $catkin_ws_name != $pattern ]]; then 
+if [[ $catkin_ws_name != $pattern ]]; then
   catkin_ws_name+="_ws"
   warn "The workspace name was modified to $catkin_ws_name (\"_ws\" appended to the provided name)"
 fi

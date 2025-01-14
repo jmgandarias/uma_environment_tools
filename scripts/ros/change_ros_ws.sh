@@ -5,7 +5,7 @@
 # This script provides an easy way to switch from one workspace to another
 #
 
-source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
+source $HOME/uma_environment_tools/scripts/utils.sh
 
 cd $WORKSPACES_PATH
 # DIRECTORIES_LIST=$(ls)
