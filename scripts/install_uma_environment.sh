@@ -3,7 +3,7 @@
 # Author: Juan M. Gandarias
 # email: jmgandarias@uma.es
 #
-# Thanks to the support of the HRII Technicians
+# Thanks to the support of the HRII Technicians <3
 #
 # This script installs or updates the UMA environment.
 #
@@ -12,10 +12,10 @@
 ACTUAL_DIR=$(pwd)
 
 # If first installation source current dir, otherwise (update) uma tree's one
-if [ -d $HOME/uma_environment/uma_environment_tools ]; then
-  source $HOME/uma_environment/uma_environment_tools/scripts/utils.sh
-  # source $HOME/uma_environment/uma_environment_tools/scripts/git/git_pull_repo.sh
-  # source $HOME/uma_environment/uma_environment_tools/scripts/progress_bar.sh
+if [ -d $HOME/uma_environment_tools ]; then
+  source $HOME/uma_environment_tools/scripts/utils.sh
+  # source $HOME/uma_environment_tools/scripts/git/git_pull_repo.sh
+  # source $HOME/uma_environment_tools/scripts/progress_bar.sh
 else
   source "$ACTUAL_DIR"/utils.sh
   # source "$ACTUAL_DIR"/progress_bar.sh
@@ -89,7 +89,7 @@ delete_empty_folder() {
 
 # Local variables
 # SOURCE_GIT_PREFIX="git@github.com:Robotics-Mechatronics-UMA/"
-FOLDER_PREFIX=~uma_environment_tools
+FOLDER_PREFIX=~/uma_environment_tools
 
 # repo_count_existing=0
 # repo_count_cloned=0
@@ -143,8 +143,8 @@ echo "install_uma_environment_ log" >>$log_file
 # fi
 
 # Get updated UMA_TREE_REPOS
-# if [ -d $HOME/uma_environment/uma_environment_tools ]; then
-#   source $HOME/uma_environment/uma_environment_tools/scripts/github/create_github_dir.sh
+# if [ -d $HOME/uma_environment_tools ]; then
+#   source $HOME/uma_environment_tools/scripts/github/create_github_dir.sh
 # else
 #   source "$ACTUAL_DIR"/github/create_github_dir.sh
 # fi
@@ -152,7 +152,7 @@ echo "install_uma_environment_ log" >>$log_file
 # Install packages
 echo
 echo "Installing packages..." | tee -a $log_file
-declare -a required_pkgs=("arp-scan" "git-gui" "python3-pip" "ros-noetic-pinocchio" "ros-noetic-move-base-msgs" "terminator" "python3-testresources" "dialog")
+declare -a required_pkgs=("arp-scan" "git-gui" "python3-pip" "ros-humble-plotjuggler-ros" "terminator" "python3-testresources" "dialog")
 declare -a required_pip3_pkgs=("tk" "h5py" "pymodbus" "matplotlib" "Twisted" "pybind11")
 
 # Check required packages installation status
@@ -280,11 +280,11 @@ echo
 
 # Check if UMA environment is already sourced in .bashrc
 bashrc_content=$(cat $HOME/.bashrc)
-path_to_be_sourced="/uma_environment/uma_environment_tools/scripts/uma_env/uma_"
+path_to_be_sourced="/uma_environment_tools/scripts/uma_env/uma_"
 if echo $bashrc_content | grep -q "$path_to_be_sourced"; then
   echo ".bashrc already sourced" >>$log_file
 else
-  echo "source $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_env.sh" >>~/.bashrc
+  echo "source $HOME/uma_environment_tools/scripts/uma_env/uma_env.sh" >>~/.bashrc
 fi
 
 # .uma_params update check
@@ -292,7 +292,7 @@ echo
 if [ ! -f ~/.uma_params.env ]; then
   # No link, copied so that is not affected by future pulls
   echo ".uma_params.env newly created" >>$log_file
-  cp $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
+  cp $HOME/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
   uma_params_out=$(cat ~/.uma_params.env)
   blue "$uma_params_out"
   echo
@@ -302,7 +302,7 @@ else
   #Check if current version is the latest
   # get last version
   str_before_version="# UMA PARAMS "
-  uma_params_file=$(cat $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env)
+  uma_params_file=$(cat $HOME/uma_environment_tools/scripts/uma_env/uma_params.env)
   LAST_VERSION="${uma_params_file#*$str_before_version}"
   LAST_VERSION="${LAST_VERSION:0:5}"
   uma_params_content=$(cat $HOME/.uma_params.env)
@@ -313,7 +313,7 @@ else
     # Store current settings
     current_ws="${WORKSPACE_TO_SOURCE##*/}"
     # No link, copied so that is not affected by future pulls
-    cp $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
+    cp $HOME/uma_environment_tools/scripts/uma_env/uma_params.env ~/.uma_params.env
     # Restore user workspace
     sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$current_ws'/' ~/.uma_params.env
     warn ".uma_params.env has been updated to latest version ($LAST_VERSION)."
@@ -379,14 +379,24 @@ fi
 # fi
 
 # Edit grub default entry to enable the uma_alias reboot_to_windows
-echo
-grub_content=$(cat /etc/default/grub)
-if echo $grub_content | grep -q "GRUB_DEFAULT=saved"; then
-  echo "reboot_to_windows already enabled!" >>$log_file
+# echo
+# grub_content=$(cat /etc/default/grub)
+# if echo $grub_content | grep -q "GRUB_DEFAULT=saved"; then
+#   echo "reboot_to_windows already enabled!" >>$log_file
+# else
+#   warn "Configuring grub to enable the uma_alias 'reboot_to_windows'. Prompt your password if required..."
+#   echo "reboot_to_windows being enabled!" >>$log_file
+#   sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub
+# fi
+
+# Install ROS 2
+if [[ -d /opt/ros/humble ]]; then
+  source /opt/ros/humble/setup.bash
+  echo "ROS 2 already installed"
 else
-  warn "Configuring grub to enable the uma_alias 'reboot_to_windows'. Prompt your password if required..."
-  echo "reboot_to_windows being enabled!" >>$log_file
-  sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub
+  echo "Installing ROS 2..."
+  cd $HOME/uma_environment_tools/scripts/
+  ./install_ros2.sh
 fi
 
 # Go back to actual dir

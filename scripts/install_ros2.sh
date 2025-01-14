@@ -8,7 +8,7 @@ get_ros2_version
 echo "Installing ROS $ROS2_DISTRO"
 
 if [ "$ROS2_DISTRO" = "" ]; then
-   error "Distro param not set. This means you are not using Ubuntu 18.04 or 20.04. Please contact Pietro if this is not the case."
+   error "Distro param not set. This means you are not using Ubuntu 20.04 or 22.04. Please contact Juanma if this is not the case."
    exit
 fi
 
