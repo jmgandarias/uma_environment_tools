@@ -397,6 +397,7 @@ else
   echo "Installing ROS 2..."
   cd $HOME/uma_environment_tools/scripts/
   ./install_ros2.sh
+  cd -
 fi
 
 # Install plostjuggler
@@ -420,8 +421,18 @@ fi
 if command -v gitkraken &>/dev/null; then
   echo "GitKraken already installed."
 else
-  echo "GitKraken installation failed."
-  exit 1
+  echo 
+  cd $HOME/uma_environment_tools/scripts/
+  ./install_gitkraken.sh
+  cd -
+fi
+
+#Install Gazebo
+if command -v gazebo &>/dev/null; then
+  echo "Gazebo already installed."
+else
+  echo "Installing Gazebo..."
+  sudo apt install gazebo
 fi
 
 # Go back to actual dir
