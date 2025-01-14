@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#  Author: Pietro Balatti
-#  email: pietro.balatti@iit.it
+#  Author: Pietro Balatti, Juan M. Gandarias
+#  email: pietro.balatti@iit.it, jmgandarias@uma.es
 #
-# This script guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in ~/.hrii_params.env
+# This script guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in ~/.uma_params.env
 #
 
 actual_dir=$(pwd)
@@ -81,7 +81,7 @@ else
 fi
 
 # Set new workspace
-sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$catkin_ws_name'/' ~/.hrii_params.env
+sed -i 's/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH[0-9a-zA-Z_~/]*/WORKSPACE_TO_SOURCE=$WORKSPACES_PATH\/'$catkin_ws_name'/' ~/.uma_params.env
 echo
-source $HOME/git/hrii_gitlab/general/hrii_installation_tools/scripts/hrii_env/hrii_env.sh
+source $HOME/uma_installation_tools/scripts/uma_env/uma_env.sh
 echo

@@ -399,6 +399,31 @@ else
   ./install_ros2.sh
 fi
 
+# Install plostjuggler
+# Check if PlotJuggler is installed
+if command -v plotjuggler &>/dev/null; then
+  echo "PlotJuggler is already installed."
+else
+  echo "Installing PlotJuggler..."
+  sudo apt install ros-$ROS_DISTRO_TO_SOURCE-plotjuggler-ros
+fi
+
+# Install Nautilus
+if command -v nautilus &>/dev/null; then
+  echo "Nautilus is already installed."
+else
+  echo "Installing Nautilus..."
+  sudo apt install nautilus
+fi
+
+#Install Gitkraken
+if command -v gitkraken &>/dev/null; then
+  echo "GitKraken already installed."
+else
+  echo "GitKraken installation failed."
+  exit 1
+fi
+
 # Go back to actual dir
 cd $ACTUAL_DIR
 

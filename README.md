@@ -324,6 +324,22 @@ git_user_change --name "Name Surname" --email "name.surname@iit.it"
 To unset the git user from you machine, run:  
 ```bash
 git_user_change --unset
-``` -->
+```
+
+
+## Use it
+
+From windows terminal:
+```
+wsl 
+```
+
+```bash
+sudo apt update
+sudo apt upgrade
+git clone https://github.com/jmgandarias/uma_environment_tools.git
+cd uma_environment_tools/scripts
+./install_uma_environment.sh
+```
 
 
