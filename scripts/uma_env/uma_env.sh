@@ -2,10 +2,8 @@
 
 source ~/.uma_params.env
 
-source $HOME/uma_environment/uma_environment_tools/scripts/ros/startup_ros_env.sh
-source $HOME/uma_environment/uma_environment_tools/scripts/uma_env/uma_aliases.sh
-source $HOME/uma_environment/uma_environment_tools/scripts/git/git_user_check.sh
-source $HOME/uma_environment/uma_environment_tools/scripts/github/create_github_dir.sh
+source $HOME/uma_environment_tools/scripts/ros/startup_ros_env.sh
+source $HOME/uma_environment_tools/scripts/uma_env/uma_aliases.sh
 
 # Add PATH export to include pymodbus and pyserial scripts
 export PATH="$PATH:/home/$USER/.local/bin"
