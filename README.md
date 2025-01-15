@@ -20,7 +20,7 @@ This repo offers a variety of scripts that can be useful to interact with ROS, c
 
 # 1. UMA environment
 
-### 1.1 Install UMA Environment
+### 1.1. Install UMA Environment
 This script creates the uma environment, installing required packages and dependencies and creating an organization structure   
 
 #### Using WSL?
@@ -39,7 +39,7 @@ cd uma_environment_tools/scripts
 ./install_uma_environment.sh
 ```
 
-### 1.2 UMA Environment Organization
+### 1.2. UMA Environment Organization
 The last script you run above created in your home (`~/`) folder the following folder tree:
 
 ```
@@ -114,7 +114,7 @@ To edit this file type:
 modify_uma_params
 ```
 
-### 1.3 update_uma_environment
+### 1.3. update_uma_environment
 This script (alias) updates the UMA environment.
 Usage:  
 ```bash
@@ -123,16 +123,16 @@ update_uma_environment
 
 # 2. Useful Tools
 
-### 2.1 Terminator
+### 2.1. Terminator
 
-### 2.2 create_catkin_ws
+### 2.2. create_catkin_ws
 This script guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in _~/.uma_params.env_.  
 Usage:  
 ```bash
 create_catkin_ws
 ```
 
-### 2.3 change_ros_ws
+### 2.3. change_ros_ws
 This script provides an easy way to switch from one workspace to another.  
 Usage:  
 ```bash
@@ -140,11 +140,11 @@ change_ros_ws
 #Note that you can also use the alias 'crw'
 ```
 
-### 2.4 create_ros2_pkg
+### 2.4. create_ros2_pkg
 
-### 2.5 nt
+### 2.5. nt
 
-### 2.6 cb
+### 2.6. cb
 
-### 2.7 cc
+### 2.7. cc
 
