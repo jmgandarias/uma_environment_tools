@@ -1,4 +1,4 @@
-# uma_environment_tools-
+# UMA Environment Tools
 Set of tools to install, update and use the uma environment
 
 This repo offers a variety of scripts that can be useful to interact with ROS, catkin, git, and other programming tools.
@@ -22,17 +22,15 @@ This repo offers a variety of scripts that can be useful to interact with ROS, c
 
 ### 1.1 Install UMA Environment
 This script creates the uma environment, installing required packages and dependencies and creating an organization structure   
-Usage:  
-```bash
-cd /path/to/uma_installation_tools/scripts
-./install_uma_environment.sh
-```
 
+#### Using WSL?
 From windows terminal:
 ```
 wsl 
 ```
 
+#### Once you're in Ubuntu system
+From Ubuntu terminal:
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -40,7 +38,6 @@ git clone https://github.com/jmgandarias/uma_environment_tools.git
 cd uma_environment_tools/scripts
 ./install_uma_environment.sh
 ```
-
 
 ### 1.2 UMA Environment Organization
 The last script you run above created in your home (`~/`) folder the following folder tree:
