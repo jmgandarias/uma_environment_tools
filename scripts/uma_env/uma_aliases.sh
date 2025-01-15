@@ -17,7 +17,7 @@ alias update_uma_environment='. $HOME/uma_environment_tools/scripts/install_uma_
 
 # General aliases
 alias nt='reset; . ~/.bashrc'
-alias crw='. $HOME/uma_environment_tools/scripts/ros/change_ros_ws.sh'
+alias crw='. $HOME/uma_environment_tools/scripts/ros2/change_ros_ws.sh'
 alias create_catkin_ws='. $HOME/uma_environment_tools/scripts/create_catkin_ws.sh'
 alias create_ros2_pkg='. $HOME/uma_environment_tools/scripts/create_ros2_pkg.sh'
 alias modify_bashrc='gedit ~/.bashrc'
@@ -26,11 +26,6 @@ alias sd='sudo shutdown now'
 alias reboot='sudo reboot'
 alias start_vnc_server='x11vnc -display :0'
 alias compress_pdf='gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=compressed_pdf.pdf'
-reboot_to_windows () {
-   windows_title=$(grep -i windows /boot/grub/grub.cfg | cut -d "'" -f 2)
-   sudo grub-reboot "$windows_title" && sudo reboot
-}
-alias reboot_to_windows='reboot_to_windows'
 
 # Plotjuggler
 alias plotjuggler='ros2 run plotjuggler plotjuggler'

@@ -2,7 +2,7 @@
 
 source ~/.uma_params.env
 
-source $HOME/uma_environment_tools/scripts/ros/startup_ros_env.sh
+source $HOME/uma_environment_tools/scripts/ros2/startup_ros_env.sh
 source $HOME/uma_environment_tools/scripts/uma_env/uma_aliases.sh
 
 # Add PATH export to include pymodbus and pyserial scripts

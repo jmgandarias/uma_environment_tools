@@ -2,7 +2,7 @@
 
 SCRIPT_PATH="`dirname \"$0\"`"
 source "`dirname \"$0\"`"/utils.sh
-source "`dirname \"$0\"`"/ros/get_ros2_version.sh
+source "`dirname \"$0\"`"/ros2/get_ros2_version.sh
 get_ros2_version
 
 echo "Uninstalling ROS $ROS2_DISTRO"

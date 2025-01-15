@@ -378,16 +378,6 @@ fi
 #   echo "UMA env clean"
 # fi
 
-# Edit grub default entry to enable the uma_alias reboot_to_windows
-# echo
-# grub_content=$(cat /etc/default/grub)
-# if echo $grub_content | grep -q "GRUB_DEFAULT=saved"; then
-#   echo "reboot_to_windows already enabled!" >>$log_file
-# else
-#   warn "Configuring grub to enable the uma_alias 'reboot_to_windows'. Prompt your password if required..."
-#   echo "reboot_to_windows being enabled!" >>$log_file
-#   sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub
-# fi
 
 # Install ROS 2
 if [[ -d /opt/ros/humble ]]; then
