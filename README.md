@@ -39,9 +39,9 @@ Create the uma environment, installing required packages and dependencies and cr
 
     From windows terminal:
    
-        ```bash
-        wsl --install Ubuntu-22.04
-        ```
+    ```bash
+    wsl --install Ubuntu-22.04
+    ```
 
     It will ask you for the username and password of the Ubuntu user. 
     If you're not familiar with Linux terminal, when it asks for your password, it doesn't show what you're writting. So don't think you're not writing, it just simply doesn't show it.
