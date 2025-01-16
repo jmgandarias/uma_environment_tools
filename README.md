@@ -21,13 +21,39 @@ This repo offers a variety of scripts that can be useful to interact with ROS, c
 # 1. UMA environment
 
 ### 1.1. Install UMA Environment
-This script creates the uma environment, installing required packages and dependencies and creating an organization structure   
+Create the uma environment, installing required packages and dependencies and creating an organized structure   
 
 #### Using WSL?
-From windows terminal:
-```
-wsl 
-```
+1. **Install WSL:**
+
+- If you're running Windows 10 version 2004 and higher (Build 19041 and higher) or Windows 11, you can install everything you need to run WSL with a single command. Open PowerShell or Windows Command Prompt in administrator mode by right-clicking and selecting "Run as administrator", enter the following command:
+
+    ```bash
+    wsl --install
+    ```
+
+    After installing, restar yout machine.
+- If you are on earlier versions please see the [manual install page](https://learn.microsoft.com/en-us/windows/wsl/install-manual) and follow the instructions.
+
+2. **Install Ubuntu 22.04:**
+
+    From windows terminal:
+        ```bash
+        wsl --install Ubuntu-22.04
+        ```
+
+    It will ask you for the username and password of the Ubuntu user. 
+    If you're not familiar with Linux terminal, when it asks for your password, it doesn't show what you're writting. So don't think you're not writing, it just simply doesn't show it.
+
+    ```
+    Enter new UNIX username: <YOUR_USERNAME>
+    New password:
+    Retype new password:
+    passwd: password updated successfully
+    Installation successful! 
+    ```
+
+    After this, you can just open an Ubuntu terminal by searching for Ubuntu in your windows applications.
 
 #### Once you're in Ubuntu system
 From Ubuntu terminal:
