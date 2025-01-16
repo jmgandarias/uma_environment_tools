@@ -52,7 +52,7 @@ Create the uma environment, installing required packages and dependencies and cr
     passwd: password updated successfully
     Installation successful! 
     ```
-
+    This installation process will take some time and it will ask you for confirmation to install some packages and dependencies (you need to say ```yes``` to all).
     After this, you can just open an Ubuntu terminal by searching for Ubuntu in your Windows applications.
 
 #### Once you're inside the Ubuntu system
