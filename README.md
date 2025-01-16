@@ -38,6 +38,7 @@ Create the uma environment, installing required packages and dependencies and cr
 2. **Install Ubuntu 22.04:**
 
     From windows terminal:
+   
         ```bash
         wsl --install Ubuntu-22.04
         ```
