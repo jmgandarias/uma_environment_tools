@@ -53,10 +53,10 @@ Create the uma environment, installing required packages and dependencies and cr
     Installation successful! 
     ```
 
-    After this, you can just open an Ubuntu terminal by searching for Ubuntu in your windows applications.
+    After this, you can just open an Ubuntu terminal by searching for Ubuntu in your Windows applications.
 
-#### Once you're in Ubuntu system
-From Ubuntu terminal:
+#### Once you're inside the Ubuntu system
+From the Ubuntu terminal:
 ```bash
 sudo apt update
 sudo apt upgrade
@@ -64,6 +64,41 @@ git clone https://github.com/jmgandarias/uma_environment_tools.git
 cd uma_environment_tools/scripts
 ./install_uma_environment.sh
 ```
+
+After installing the UMA environment, you can close that terminal and open a new one.
+By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easy).
+To open an Ubuntu terminator from Windows you just have to look for it in your Windows applications.
+
+The first thing you need to do is to update the uma environment to finish the installation. Run:
+
+```bash
+update_uma_environment
+````
+
+Now, restart the terminal by running the new terminal alias (nt):
+
+```bash
+nt
+```
+
+Then, you need to create a catkin workspace, to do so, run the following alias:
+
+```bash
+create_catkin_ws
+```
+
+It will create a catkin_ws inside the folder ros. Remember that the UMA environment expects that all the workspace names end with _ws (i.e., <MY_ROS2_WORKSPACE_NAME>_ws). 
+The default name is catkin_ws. 
+
+Once the workspace has been created, you need to compile it with colcon build, you can do it with the following alias:
+
+```bash
+cb
+```
+
+You should see that the workspace is automatically sourced. From now on, every new terminal you open will automatically source this workspace. 
+Refer to  [create_catkin_ws](#22-create_catkin_ws) and [change_ros_ws](#23-change_ros_ws) if you want to create more workspaces and change the workspace to be sourced.
+
 
 ### 1.2. UMA Environment Organization
 The last script you run above created in your home (`~/`) folder the following folder tree:
