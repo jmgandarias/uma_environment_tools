@@ -214,6 +214,14 @@ else
   sudo apt install gazebo
 fi
 
+#Install gedit
+if command --version gedit &>/dev/null; then
+  echo "gedit already installed."
+else
+  echo "Installing gedit..."
+  sudo snap install gedit
+fi
+
 # Go back to actual dir
 cd $ACTUAL_DIR
 
