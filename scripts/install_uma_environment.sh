@@ -215,7 +215,7 @@ else
 fi
 
 #Install gedit
-if command --version gedit &>/dev/null; then
+if command -v gedit &>/dev/null; then
   echo "gedit already installed."
 else
   echo "Installing gedit..."
