@@ -77,7 +77,7 @@ echo "install_uma_environment_ log" >>$log_file
 # Install packages
 echo
 echo "Installing packages..." | tee -a $log_file
-declare -a required_pkgs=("arp-scan" "git-gui" "python3-pip" "ros-humble-plotjuggler-ros" "terminator" "python3-testresources" "dialog")
+declare -a required_pkgs=("arp-scan" "git-gui" "python3-pip" "nautilus" "gazebo" "ros-humble-plotjuggler-ros" "terminator" "python3-testresources" "dialog" "python3-rosdep2")
 declare -a required_pip3_pkgs=("tk" "h5py" "pymodbus" "matplotlib" "Twisted" "pybind11")
 
 # Check required packages installation status
@@ -188,13 +188,13 @@ else
   sudo apt install ros-$ROS_DISTRO_TO_SOURCE-plotjuggler-ros
 fi
 
-# Install Nautilus
-if command -v nautilus &>/dev/null; then
-  echo "Nautilus is already installed."
-else
-  echo "Installing Nautilus..."
-  sudo apt install nautilus
-fi
+# # Install Nautilus
+# if command -v nautilus &>/dev/null; then
+#   echo "Nautilus is already installed."
+# else
+#   echo "Installing Nautilus..."
+#   sudo apt install nautilus
+# fi
 
 #Install Gitkraken
 if command -v gitkraken &>/dev/null; then
@@ -207,12 +207,12 @@ else
 fi
 
 #Install Gazebo
-if command -v gazebo &>/dev/null; then
-  echo "Gazebo already installed."
-else
-  echo "Installing Gazebo..."
-  sudo apt install gazebo
-fi
+# if command -v gazebo &>/dev/null; then
+#   echo "Gazebo already installed."
+# else
+#   echo "Installing Gazebo..."
+#   sudo apt install gazebo
+# fi
 
 #Install gedit
 if command -v gedit &>/dev/null; then
