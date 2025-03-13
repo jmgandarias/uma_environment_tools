@@ -66,6 +66,11 @@ cd uma_environment_tools/scripts
 ./install_uma_environment.sh
 ```
 
+If you find an error when installing python3-catkin-pkg during the installation, run the following command:
+```bash
+sudo apt --fix-broken install
+```
+
 After installing the UMA environment, you can close that terminal and open a new one.
 By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easy).
 To open an Ubuntu terminator from Windows you just have to look for it in your Windows applications.
