@@ -71,6 +71,18 @@ If you find an error when installing python3-catkin-pkg during the installation,
 sudo apt --fix-broken install
 ```
 
+Then, you'll need to uninstall ros and install the environment again:
+```bash
+sudo rm /etc/apt/sources.list.d/ros2.list
+sudo apt update
+sudo apt autoremove
+# Consider upgrading for packages previously shadowed.
+sudo apt upgrade
+cd ~/uma_environment_tools/scripts
+./install_uma_environment.sh
+```
+
+
 After installing the UMA environment, you can close that terminal and open a new one.
 By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easy).
 To open an Ubuntu terminator from Windows you just have to look for it in your Windows applications.
