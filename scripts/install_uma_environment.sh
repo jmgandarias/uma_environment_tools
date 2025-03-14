@@ -100,7 +100,6 @@ done
 
 
 
-
 # Check if UMA environment is already sourced in .bashrc
 bashrc_content=$(cat $HOME/.bashrc)
 path_to_be_sourced="/uma_environment_tools/scripts/uma_env/uma_"

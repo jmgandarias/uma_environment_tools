@@ -18,12 +18,13 @@ This repo offers a variety of scripts that can be useful to interact with ROS, c
     6. [cb](#24-cb)
     7. [cc](#24-cc)
 
+
 # 1. UMA environment
 
-### 1.1. Install UMA Environment
+## 1.1. Install UMA Environment
 Create the uma environment, installing required packages and dependencies and creating an organized structure   
 
-#### Using WSL?
+### Using WSL?
 1. **Install WSL:**
 
 - If you're running Windows 10 version 2004 and higher (Build 19041 and higher) or Windows 11, you can install everything you need to run WSL with a single command. Open PowerShell or Windows Command Prompt in administrator mode by right-clicking and selecting "Run as administrator", enter the following command:
@@ -56,7 +57,7 @@ Create the uma environment, installing required packages and dependencies and cr
     This installation process will take some time and it will ask you for confirmation to install some packages and dependencies (you need to say ```yes``` to all).
     After this, you can just open an Ubuntu terminal by searching for Ubuntu in your Windows applications.
 
-#### Once you're inside the Ubuntu system
+### Once you're inside the Ubuntu system
 From the Ubuntu terminal:
 ```bash
 sudo apt update
@@ -66,22 +67,8 @@ cd uma_environment_tools/scripts
 ./install_uma_environment.sh
 ```
 
-If you find an error when installing python3-catkin-pkg during the installation, run the following command:
-```bash
-sudo apt --fix-broken install
-```
-
-Then, you'll need to uninstall ros and install the environment again:
-```bash
-sudo rm /etc/apt/sources.list.d/ros2.list
-sudo apt update
-sudo apt autoremove
-# Consider upgrading for packages previously shadowed.
-sudo apt upgrade
-cd ~/uma_environment_tools/scripts
-./install_uma_environment.sh
-```
-
+> [!WARNING]  
+> If you find an error at this point, check the [troubleshooting](#3-troubleshooting) before continuing.
 
 After installing the UMA environment, you can close that terminal and open a new one.
 By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easy).
@@ -91,7 +78,7 @@ The first thing you need to do is to update the uma environment to finish the in
 
 ```bash
 update_uma_environment
-````
+```
 
 Now, restart the terminal by running the new terminal alias (nt):
 
@@ -118,7 +105,7 @@ You should see that the workspace is automatically sourced. From now on, every n
 Refer to  [create_catkin_ws](#22-create_catkin_ws) and [change_ros_ws](#23-change_ros_ws) if you want to create more workspaces and change the workspace to be sourced.
 
 
-### 1.2. UMA Environment Organization
+## 1.2. UMA Environment Organization
 The last script you run above created in your home (`~/`) folder the following folder tree:
 
 ```
@@ -193,7 +180,7 @@ To edit this file type:
 modify_uma_params
 ```
 
-### 1.3. update_uma_environment
+## 1.3. update_uma_environment
 This script (alias) updates the UMA environment.
 Usage:  
 ```bash
@@ -202,28 +189,70 @@ update_uma_environment
 
 # 2. Useful Tools
 
-### 2.1. Terminator
+## 2.1. Terminator
 
-### 2.2. create_catkin_ws
-This script guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in _~/.uma_params.env_.  
+## 2.2. create_catkin_ws
+This alias guides you to the creation of a new catkin workspace, the catkin build type (make or build) is retrieved from the config file stored in _~/.uma_params.env_.  
 Usage:  
 ```bash
 create_catkin_ws
 ```
 
-### 2.3. change_ros_ws
-This script provides an easy way to switch from one workspace to another.  
+## 2.3. change_ros_ws
+This alias provides an easy way to switch from one workspace to another.  
 Usage:  
 ```bash
 change_ros_ws
 #Note that you can also use the alias 'crw'
 ```
 
-### 2.4. create_ros2_pkg
+## 2.4. create_ros2_pkg
+This alias makes straightforward the creation of a ros2 pkg
+Usage:  
+```bash
+create_ros2_pkg
+```
 
-### 2.5. nt
+## 2.5. nt
+This alias can be used to restart the terminal
+Usage:  
+```bash
+nt
+```
 
-### 2.6. cb
+## 2.6. cb
+This alias can be used as a fast way to compile a ros2 workspace with colcon build
+Usage:  
+```bash
+cb
+```
 
-### 2.7. cc
+## 2.7. cc
+This alias can be used to remove the build, install, and log folders in the sourced workspace
+Usage:  
+```bash
+cc
+```
+
+# 3. Troubleshooting
+
+### 3.1. Error when installing python3-catkin-pkg
+If you find an error when installing python3-catkin-pkg during the installation, run the following command:
+```bash
+sudo apt --fix-broken install
+```
+
+Then, you'll need to uninstall ros and install the environment again:
+
+```bash
+sudo rm /etc/apt/sources.list.d/ros2.list
+sudo apt update
+sudo apt autoremove
+# Consider upgrading for packages previously shadowed.
+sudo apt upgrade
+cd ~/uma_environment_tools/scripts
+./install_uma_environment.sh
+```
+
+
 
