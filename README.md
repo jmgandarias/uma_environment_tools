@@ -17,6 +17,7 @@ This repo offers a variety of scripts that can be useful to interact with ROS, c
     5. [nt](#24-nt)
     6. [cb](#24-cb)
     7. [cc](#24-cc)
+3. [Troubleshooting](<#3-troubleshooting>)
 
 
 # 1. UMA environment
