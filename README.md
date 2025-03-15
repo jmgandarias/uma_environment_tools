@@ -246,6 +246,7 @@ sudo apt --fix-broken install
 Then, you'll need to uninstall ros and install the environment again:
 
 ```bash
+sudo apt remove ~nros-humble-* && sudo apt autoremove
 sudo rm /etc/apt/sources.list.d/ros2.list
 sudo apt update
 sudo apt autoremove
