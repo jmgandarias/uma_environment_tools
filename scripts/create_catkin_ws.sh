@@ -74,10 +74,14 @@ echo "Creating and building a catkin workspace in \"$WORKSPACE_PREFIX/$catkin_ws
 
 mkdir -p $WORKSPACE_PREFIX/$catkin_ws_name/src
 cd $WORKSPACE_PREFIX/$catkin_ws_name
-if [[ "$CATKIN_BUILD_TYPE" == "build" ]]; then
-  catkin build
+if [[ "$ROS_VERSION" == "2" ]]; then
+  cb
 else
-  catkin_make
+  if [[ "$CATKIN_BUILD_TYPE" == "build" ]]; then
+    catkin build
+  else
+    catkin_make
+  fi
 fi
 
 # Set new workspace
