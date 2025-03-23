@@ -6,6 +6,7 @@ alias gazebo_pause_physics='rosservice call /gazebo/pause_physics'
 alias gazebo_kill='killall -9 gzserver; killall -9 gzclient'
 
 if [ $ROS_VERSION == 2 ]; then
+    alias cdw='cd $WORKSPACE_TO_SOURCE'
     alias cb='reset && colcon build --symlink-install'
     alias ct='reset && colcon test'
     alias cc='echo "Removing build install log folders in $WORKSPACE_TO_SOURCE..."; rm -r $WORKSPACE_TO_SOURCE/build $WORKSPACE_TO_SOURCE/install $WORKSPACE_TO_SOURCE/log'
