@@ -61,6 +61,7 @@ Create the uma environment, installing required packages and dependencies and cr
 ### Once you're inside the Ubuntu system
 From the Ubuntu terminal:
 ```bash
+cd
 sudo apt update
 sudo apt upgrade
 git clone https://github.com/jmgandarias/uma_environment_tools.git
