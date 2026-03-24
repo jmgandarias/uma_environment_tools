@@ -59,7 +59,7 @@ Create the uma environment, installing required packages and dependencies and cr
     After this, you can just open an Ubuntu terminal by searching for Ubuntu in your Windows applications.
 
 ### Once you're inside the Ubuntu system
-From the Ubuntu terminal:
+From the Ubuntu terminal (inside the `cmd` - you can copy-paste using `ctrl+C` (copy) and `right click` (paste)):
 ```bash
 cd
 sudo apt update
@@ -73,7 +73,7 @@ cd uma_environment_tools/scripts
 > If you find an error at this point, check the [troubleshooting](#3-troubleshooting) before continuing.
 
 After installing the UMA environment, you can close that terminal and open a new one.
-By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easy).
+By installing the UMA environment, you have installed Terminator (a specific Ubuntu terminal that will make your life easier).
 To open an Ubuntu terminator from Windows you just have to look for it in your Windows applications.
 
 The first thing you need to do is to update the uma environment to finish the installation. Run:
@@ -154,8 +154,8 @@ The structure above represents the UMA environment directory tree, subdivided in
 #Set your ENV variables preferences
 UMA_ENV_VERBOSITY=true
 
-#Set git client preferences (GUI/kraken)
-GIT_CLIENT=kraken
+#Set git client preferences (GUI)
+GIT_CLIENT=GUI
 
 #Set ROS distro
 ROS2_DISTRO_TO_INSTALL=humble

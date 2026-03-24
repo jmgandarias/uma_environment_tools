@@ -12,7 +12,7 @@ source $HOME/.uma_params.env
 
 # default values
 verbosity=$(echo $UMA_ENV_VERBOSITY)       #true/false
-git_client=$(echo $GIT_CLIENT)             #GUI/kraken
+git_client=$(echo $GIT_CLIENT)             #GUI
 terminal_style=$(echo $TERMINAL_COLORS)    #1/2
 interface_type=$(echo ${INTERFACE_TYPE,,}) #simulation/hardware - converting to lower case
 
