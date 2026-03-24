@@ -195,16 +195,6 @@ fi
 #   sudo apt install nautilus
 # fi
 
-#Install Gitkraken
-if command -v gitkraken &>/dev/null; then
-  echo "GitKraken already installed."
-else
-  echo 
-  cd $HOME/uma_environment_tools/scripts/
-  sudo ./install_gitkraken.sh
-  cd -
-fi
-
 #Install Gazebo
 # if command -v gazebo &>/dev/null; then
 #   echo "Gazebo already installed."
